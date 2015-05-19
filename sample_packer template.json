@@ -1,0 +1,25 @@
+
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "ap-southeast-2",
+    "source_ami": "ami-9eaa1cf6",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "packer-example {{timestamp}}"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "scripts": [
+    "scripts/packages.sh"
+    ]
+  }]
+}
+
